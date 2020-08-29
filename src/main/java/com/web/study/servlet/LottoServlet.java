@@ -30,5 +30,4 @@ public class LottoServlet  extends HttpServlet {
         PrintWriter out = resp.getWriter();
         out.print(nums);
     }
-    
 }
