@@ -49,9 +49,9 @@ public class AddServlet extends HttpServlet {
         // 3. 預備資料, 將資料存放在 request 物件中
         req.setAttribute("emps", emps);
         
-        // 4. 重導(內部)至 employee_form.jsp (可代參數, 保護邏輯結構)
+        // 4. 重新導向(內部)至 employee_form.jsp (可代參數, 保護邏輯結構)
         RequestDispatcher rd = getServletContext().getRequestDispatcher("/forms/employee_form.jsp");
         rd.forward(req, resp);
     }
-    
+   
 }

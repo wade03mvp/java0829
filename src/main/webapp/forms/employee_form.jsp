@@ -1,9 +1,3 @@
-<%-- 
-    Document   : employee_form
-    Created on : 2020/9/5, 上午 10:38:25
-    Author     : MB-study
---%>
-
 <%@page import="java.util.Map"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -38,8 +32,7 @@
             List<Map<String, String>> emps = null;
             if(request.getAttribute("emps") != null) {
                 emps = (List<Map<String, String>>)request.getAttribute("emps");
-            }
-           
+            } 
         %>
         <table class="pure-table">
             <thead>
@@ -51,15 +44,23 @@
                 </tr>
             </thead>
             <%if (emps != null) {%>
+            <%int total = 0;%>
             <tbody>
                 <%for(Map<String, String>emp : emps) {%>
                 <tr>
                     <td><%=emp.get("empName") %></td>
-                    <td><%=emp.get("empSalary") %></td>
-                    <td><%=emp.get("empSex") %></td>
-                    <td><%=emp.get("empType") %></td>
+                    <td><%=String.format("%,d", Integer.parseInt(emp.get("empSalary")))  %></td>
+                    <td><%=emp.get("empSex").equals("1")?"男":"女" %></td>
+                    <td><%=emp.get("empType")==null?"":"v"%></td>
                 </tr>
+               <%total = total + Integer.parseInt(emp.get("empSalary")); %>
                 <%}%>
+                <tr>
+                    <td></td>
+                    <td><%=String.format("%,d", total) %></td>
+                    <td></td>
+                    <td></td>
+                </tr>
             </tbody>
             <%}%>
         </table>
