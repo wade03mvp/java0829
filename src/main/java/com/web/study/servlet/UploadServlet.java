@@ -26,7 +26,7 @@ public class UploadServlet extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("text/html;charset=utf-8");
         PrintWriter out = resp.getWriter();
-        // 分析 part (name = desc1)        
+        // 分析 part (name = desc1)
         req.getParts().stream()
                 .filter(part -> part.getName().equals("desc1"))
                 .forEach(part -> {
@@ -36,6 +36,7 @@ public class UploadServlet extends HttpServlet {
                     } catch (Exception e) {
                     }
                 });
+        out.print("<p>");
         // 分析 part (name = myfile1)
         req.getParts().stream()
                 .filter(part -> part.getName().equals("myfile1"))
@@ -43,14 +44,16 @@ public class UploadServlet extends HttpServlet {
                     String fname = part.getSubmittedFileName();
                     try {
                         part.write(fname);
-                        out.print("Upload OK");
+                        out.print("Upload OK<p>");
                         out.print("<img width='500' src='/JavaWeb0829/servlet/image?name=" + fname + "'>");
                         // reload myiframe_imagelist
                         out.println("<script>top.frames['myiframe_imagelist'].location.reload();</script>");
                     } catch (Exception e) {
-                        out.print("Upload Error" + e);
+                        out.print("Upload Error, " + e);
                         e.printStackTrace(out);
                     }
                 });
+
     }
+
 }
