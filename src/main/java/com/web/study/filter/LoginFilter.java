@@ -1,10 +1,7 @@
 package com.web.study.filter;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 import javax.servlet.FilterChain;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
