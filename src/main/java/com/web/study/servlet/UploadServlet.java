@@ -45,6 +45,8 @@ public class UploadServlet extends HttpServlet {
                         part.write(fname);
                         out.print("Upload OK");
                         out.print("<img width='500' src='/JavaWeb0829/servlet/image?name=" + fname + "'>");
+                        // reload myiframe_imagelist
+                        out.println("<script>top.frames['myiframe_imagelist'].location.reload();</script>");
                     } catch (Exception e) {
                         out.print("Upload Error" + e);
                         e.printStackTrace(out);
