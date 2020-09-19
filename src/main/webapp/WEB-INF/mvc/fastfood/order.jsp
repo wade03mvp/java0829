@@ -12,19 +12,19 @@
                     window.location.href = '/JavaWeb0829/fastfood/submit';
                 }
             }
-            
+
             function logout() {
                 if (confirm('是否要登出 ?')) {
                     window.location.href = '/JavaWeb0829/fastfood/logout';
                 }
             }
-            
+
             function itemDelete(no) {
                 if (confirm('是否要刪除 no = ' + no + ' 的資料 ?')) {
                     var xhttp = new XMLHttpRequest();
                     xhttp.onreadystatechange = function () {
                         if (this.readyState == 4 && this.status == 200) {
-                            window.location.href = '/JavaWeb0829/fastfood/order';
+                            //window.location.href = '/JavaWeb0829/fastfood/order';
                         }
                     };
                     xhttp.open("DELETE", "/JavaWeb0829/fastfood/order", true);
@@ -83,7 +83,7 @@
                                 <th>${food.no}</th>
                                 <th><img src="/JavaWeb0829/images/fastfood/${food.name}.png" width="50" valign="middle" align="left">${food.name}</th>
                                 <th>${food.price}</th>
-                                <th><a href="javascript:itemDelete(${food.no})">刪除</a></th>
+                                <th><button type="submit" class="pure-button pure-button-primary">刪除</span></th>
                             </tr>
                             <c:set var="subtotal" value="${subtotal + food.price}" />
                         </c:forEach>
