@@ -1,30 +1,30 @@
-package com.web.study.servlet.cookies;
+package com.web.study.servlet.session;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Random;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-@WebServlet("/servlet/cookies/write")
-public class WriteCookieServlet extends HttpServlet{
+@WebServlet("/servlet/session/write")
+public class WriteSessionServlet extends HttpServlet{
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession(true); // 建立新 session
+        // 將敏感性資料存入 session 中
         int salary = new Random().nextInt(100000);
         int age = new Random().nextInt(40);
-        Cookie cookie = new Cookie("salary", salary + "");
-        Cookie cookie2 = new Cookie("age", age + "");
-        cookie.setMaxAge(10); // 存續時間,以秒為單位
-        cookie2.setMaxAge(10);
-        resp.addCookie(cookie); // 將 cookie 寫入 client 端
-        resp.addCookie(cookie2);
+        session.setAttribute("salary", salary);
+        session.setAttribute("age", age);
+        
         PrintWriter out = resp.getWriter();
-        out.println("Write cookie ok !");
+        out.println("Session create OK !");
+        out.println("Session Id: " + session.getId());
     }
     
 }
