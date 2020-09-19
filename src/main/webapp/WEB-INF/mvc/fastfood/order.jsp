@@ -12,6 +12,13 @@
                     window.location.href = '/JavaWeb0829/fastfood/submit';
                 }
             }
+            
+            function logout() {
+                if (confirm('是否要登出 ?')) {
+                    window.location.href = '/JavaWeb0829/fastfood/logout';
+                }
+            }
+            
             function itemDelete(no) {
                 if (confirm('是否要刪除 no = ' + no + ' 的資料 ?')) {
                     var xhttp = new XMLHttpRequest();
@@ -54,6 +61,7 @@
                 </select><p />
                 <button type="submit" class="pure-button pure-button-primary">加入</button>
                 <button type="button" class="pure-button pure-button-primary" onclick="orderSubmit()">結帳</button>
+                <button type="button" class="pure-button pure-button-primary" onclick="logout()">登出</button>
             </fieldset>
         </form>
         <form class="pure-form">
