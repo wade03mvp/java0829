@@ -77,6 +77,11 @@ public class StudentService {
     @Produces("application/json")
     public Response create(Student student) {
         if(student != null) {
+            int nextId = 1;
+            if(students.size() > 0) {
+                nextId = students.stream().mapToInt(s -> s.getId()).max().getAsInt() + 1;
+            }
+            student.setId(nextId);
             students.add(student);
             Message message = new Message(200, "Create success !");
             return Response.ok().entity(message).encoding("utf-8").build();
