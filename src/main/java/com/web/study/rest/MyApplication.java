@@ -1,6 +1,8 @@
 package com.web.study.rest;
 
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
@@ -11,7 +13,7 @@ public class MyApplication extends Application {
     @Override
     public Set<Class<?>> getClasses() {
         Set<Class<?>> classes = new LinkedHashSet<>();
-        classes.add(HelloService.class); // 建立新物件
+        classes.add(HelloService.class); // 每次都建立新物件
         classes.add(BMIService.class);
         //classes.add(CountSingleTonService.class);
         return classes; 
@@ -23,5 +25,14 @@ public class MyApplication extends Application {
         set.add(new CountSingleTonService());
         return set;
     }
-  
+
+    @Override
+    public Map<String, Object> getProperties() {
+        Map<String, Object> map = new LinkedHashMap<>();
+        map.put("max", 10);
+        map.put("min", 0);
+        return map;
+    }
+ 
+    
 }
