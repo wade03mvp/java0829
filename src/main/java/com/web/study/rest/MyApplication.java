@@ -14,10 +14,10 @@ public class MyApplication extends Application {
     @Override
     public Set<Class<?>> getClasses() {
         Set<Class<?>> classes = new LinkedHashSet<>();
-        classes.add(HelloService.class); // 每次都建立新物件
+        classes.add(HelloService.class);
         classes.add(BMIService.class);
         //classes.add(CountSingleTonService.class);
-        return classes; 
+        return classes;
     }
 
     @Override
@@ -33,8 +33,8 @@ public class MyApplication extends Application {
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("max", 10);
         map.put("min", 0);
+        map.put("lotto", new Integer[]{5, 39});
         return map;
     }
- 
-    
+
 }
