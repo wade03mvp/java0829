@@ -13,20 +13,20 @@
                 var score = document.getElementById("score").value;
                 // 建立物件
                 var st = new Object();
-                st.id = id*1;
+                st.id = id * 1;
                 st.name = name;
-                st.score = score*1;
+                st.score = score * 1;
                 // 將物件 st 轉 json 字串
                 var jsonstring = JSON.stringify(st);
-                
                 // 傳送到指定的地方: /JavaWeb0829/rest/student/
                 var xhttp = new XMLHttpRequest();
-                xhttp.onreadystatechange = function() {
-                    if(this.readyState == 4) {
-                        var jo = JSON.parse(this.responseText); // 將文字轉成 json 物件  
-                        switch(this.status) {    
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState == 4) {
+                        var jo = JSON.parse(this.responseText); // 將文字資料轉成 json 物件
+                        switch (this.status) {
                             case 200:
-                                alert(jo);
+                                readStudent();
+                                alert(jo.text);
                                 break;
                             case 400:
                                 alert(jo.text);
@@ -40,12 +40,12 @@
             }
             function readStudent() {
                 var xhttp = new XMLHttpRequest();
-                xhttp.onreadystatechange = function() {
-                    if(this.readyState == 4) {
-                        var jo = JSON.parse(this.responseText); // 將文字轉成 json 物件  
-                        switch(this.status) {    
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState == 4) {
+                        var jo = JSON.parse(this.responseText); // 將文字資料轉成 json 物件
+                        switch (this.status) {
                             case 200:
-                                alert(jo);
+                                showTable(jo);
                                 break;
                             case 400:
                                 alert(jo.text);
@@ -54,7 +54,26 @@
                     }
                 }
                 xhttp.open('GET', '/JavaWeb0829/rest/student/', true);
-                xhttp.send();               
+                xhttp.send();
+            }
+            function showTable(jo) {
+                // 清空
+                var lens = document.getElementById("student_table").rows.length;
+                for (var i = 0; i < lens; i++) {
+                    document.getElementById("student_table").deleteRow(0);
+                }
+                var table = document.getElementById("student_table");
+                for (var i = 0; i < jo.length; i++) {
+                    var row = table.insertRow(0);
+                    var cell1 = row.insertCell(0);
+                    var cell2 = row.insertCell(1);
+                    var cell3 = row.insertCell(2);
+                    var cell4 = row.insertCell(3);
+                    cell1.innerHTML = jo[i].id;
+                    cell2.innerHTML = jo[i].name;
+                    cell3.innerHTML = jo[i].score;
+                    cell4.innerHTML = '<input type="button" value="刪除" onclick="deleteStudent(' + jo[i].id + ')">';
+                }
             }
         </script>
     </head>
