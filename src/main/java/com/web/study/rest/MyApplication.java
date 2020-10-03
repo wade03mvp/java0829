@@ -1,5 +1,6 @@
 package com.web.study.rest;
 
+import com.web.student.service.StudentService;
 import com.web.study.rest.lotto.LottoService;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -16,7 +17,7 @@ public class MyApplication extends Application {
         Set<Class<?>> classes = new LinkedHashSet<>();
         classes.add(HelloService.class);
         classes.add(BMIService.class);
-        //classes.add(CountSingleTonService.class);
+        //classes.add(CountSingleTonService.class); 
         return classes;
     }
 
@@ -25,6 +26,7 @@ public class MyApplication extends Application {
         Set<Object> set = new LinkedHashSet<>();
         set.add(new CountSingleTonService());
         set.add(new LottoService());
+        set.add(new StudentService());
         return set;
     }
 
@@ -34,6 +36,7 @@ public class MyApplication extends Application {
         map.put("max", 10);
         map.put("min", 0);
         map.put("lotto", new Integer[]{5, 39});
+        map.put("passScore", 60);
         return map;
     }
 
