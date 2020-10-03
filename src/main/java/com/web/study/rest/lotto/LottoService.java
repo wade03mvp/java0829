@@ -4,6 +4,7 @@ import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -55,6 +56,19 @@ public class LottoService {
             Lotto newLotto = genLotto(app);
             lo.get().setNums(newLotto.getNums());
             return "Lotto update OK";
+        } else {
+            return "id: " + id + "Not found"; 
+        }
+    }
+    
+    @Path("(id)")
+    @DELETE
+    @Produces("text/html")
+    public String delete(@PathParam("id") Integer id, @Context Application app) {
+        Optional<Lotto> lo = lottos.stream().filter(lotto -> lotto.getId() == id).findAny();
+        if(lo.isPresent()) { 
+            lottos.remove(lo.get());
+            return "Lotto delete OK";
         } else {
             return "id: " + id + "Not found"; 
         }
