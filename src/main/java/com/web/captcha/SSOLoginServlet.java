@@ -1,7 +1,7 @@
 package com.web.captcha;
 
 import java.io.IOException;
-import javax.servlet.RequestDispatcher;
+import java.util.Set;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -32,10 +32,19 @@ public class SSOLoginServlet extends BaseServlet {
             return;
         }
         
-        // 3. 登入成功
+        // 3. 此 username 是否已登入?
+        Set<String> alreadyLoginMembers = (Set<String>)getServletContext().getAttribute("alreadyLoginMembers");
+        if(alreadyLoginMembers.stream().filter(n -> n.equals(username)).findAny().isPresent()) {
+            req.setAttribute("result", username + "已登入");
+            forward(req, resp, "/forms/captcha/sso_login_form.jsp");
+            return;
+        }
+        
+        // 4. 登入成功
         resp.getWriter().print("Login success !");
         HttpSession session = req.getSession(true);
         session.setAttribute("username", username);
+        alreadyLoginMembers.add(username);
         forward(req, resp, "/captcha/sso/view/member");
         // resp.sendRedirect("/JavaWeb0829/captcha/sso/view/member"); // GET
     }
