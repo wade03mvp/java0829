@@ -6,10 +6,10 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Scanner;
 import javax.servlet.http.HttpServlet;
@@ -26,7 +26,6 @@ public class BaseServlet extends HttpServlet {
             conn = DriverManager.getConnection(dburl, dbuser, dbpwd);
         } catch (Exception e) {
         }
-
     }
     
     protected boolean checkLogin(String username, String password) {
@@ -41,6 +40,7 @@ public class BaseServlet extends HttpServlet {
         }
         return false;
     }
+    
     
     protected boolean checkCaptcha(HttpServletRequest req) throws MalformedURLException, IOException {
         return checkCaptcha(req.getParameter("g-recaptcha-response"));
