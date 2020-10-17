@@ -8,6 +8,7 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Base64;
@@ -43,10 +44,11 @@ public class BaseServlet extends HttpServlet {
     protected boolean newMember(String username, String password) {
         // 將 password 進行 base64 編碼
         password = Base64.getEncoder().encodeToString(password.getBytes());
-        String sql = "INSERT INTO Member(username, password) VALUES('%s', '%s')";
-        sql = String.format(sql, username, password);
-        try(Statement stmt = conn.createStatement();) {
-            int count = stmt.executeUpdate(sql);
+        String sql = "INSERT INTO Member(username, password) VALUES(?, ?)"; 
+        try(PreparedStatement stmt = conn.prepareStatement(sql);) {
+            stmt.setString(1, username);
+            stmt.setString(2, password);
+            int count = stmt.executeUpdate();
             return count > 0 ? true : false;
         } catch (Exception e) {
             e.printStackTrace();
@@ -55,10 +57,11 @@ public class BaseServlet extends HttpServlet {
     }
     
     protected List<Map<String, Object>> getMember(String username) {
-        String sql = "SELECT username, password FROM Member WHERE username='%s'";
+        String sql = "SELECT username, password FROM Member WHERE username=?";
         sql = String.format(sql, username);
-        try(Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);) {
+        try(PreparedStatement stmt = conn.prepareStatement(sql);) {
+            stmt.setString(1, username);
+            ResultSet rs = stmt.executeQuery(sql);
             // ResultSet集合 -> List<Map<String, Object>>
             BasicRowProcessor convert = new BasicRowProcessor();
             MapListHandler handler = new MapListHandler(convert);
@@ -72,10 +75,11 @@ public class BaseServlet extends HttpServlet {
     protected boolean checkLogin(String username, String password) {
         // 將 password 進行 base64 編碼
         password = Base64.getEncoder().encodeToString(password.getBytes()); 
-        String sql = "SELECT username, password FROM Member WHERE username='%s' and password='%s'";
-        sql = String.format(sql, username, password);
-        try(Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);) {
+        String sql = "SELECT username, password FROM Member WHERE username=? and password=?"; 
+        try(PreparedStatement stmt = conn.prepareStatement(sql);) {
+            stmt.setString(1, username);
+            stmt.setString(2, password);
+            ResultSet rs = stmt.executeQuery(sql);
             if(rs.next()) {
                 return true;
             }
@@ -83,7 +87,6 @@ public class BaseServlet extends HttpServlet {
         }
         return false;
     }
-    
     
     protected boolean checkCaptcha(HttpServletRequest req) throws MalformedURLException, IOException {
         return checkCaptcha(req.getParameter("g-recaptcha-response"));
