@@ -1,6 +1,5 @@
 package com.web.captcha;
 
-
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,7 +13,20 @@ public class SSOLoginServlet extends BaseServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html;charset=utf-8");
         boolean checkCaptcher = checkCaptcha(req);
-        resp.getWriter().print(checkCaptcher);
+        // 1.驗證 captcher
+        if(!checkCaptcher) {
+            resp.getWriter().print("Captcher: " + checkCaptcher);
+            return;
+        }
+        
+        // 2.驗證 username, password
+        String username = req.getParameter("username");
+        String password = req.getParameter("password");
+        boolean checkLogin = checkLogin(username, password);
+        if(!checkLogin) {
+            resp.getWriter().print("Login: " + checkLogin);
+            return;
+        }
     }
   
 }
