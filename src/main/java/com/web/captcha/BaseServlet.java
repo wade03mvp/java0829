@@ -10,10 +10,14 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Base64;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.dbutils.BasicRowProcessor;
+import org.apache.commons.dbutils.handlers.MapListHandler;
 
 public class BaseServlet extends HttpServlet {
     private static Connection conn;
@@ -28,7 +32,38 @@ public class BaseServlet extends HttpServlet {
         }
     }
     
+    protected boolean newMember(String username, String password) {
+        // 將 password 進行 base64 編碼
+        password = Base64.getEncoder().encodeToString(password.getBytes());
+        String sql = "INSERT INTO Member(username, password) VALUES('%s', '%s')";
+        sql = String.format(sql, username, password);
+        try(Statement stmt = conn.createStatement();) {
+            int count = stmt.executeUpdate(sql);
+            return count > 0 ? true : false;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    protected List<Map<String, Object>> getMember(String username) {
+        String sql = "SELECT username, password FROM Member WHERE username='%s'";
+        sql = String.format(sql, username);
+        try(Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);) {
+            // ResultSet集合 -> List<Map<String, Object>>
+            BasicRowProcessor convert = new BasicRowProcessor();
+            MapListHandler handler = new MapListHandler(convert);
+            return handler.handle(rs);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
     protected boolean checkLogin(String username, String password) {
+        // 將 password 進行 base64 編碼
+        password = Base64.getEncoder().encodeToString(password.getBytes());
         String sql = "SELECT username, password FROM Member WHERE username='%s' and password='%s'";
         sql = String.format(sql, username, password);
         try(Statement stmt = conn.createStatement();
@@ -40,7 +75,6 @@ public class BaseServlet extends HttpServlet {
         }
         return false;
     }
-    
     
     protected boolean checkCaptcha(HttpServletRequest req) throws MalformedURLException, IOException {
         return checkCaptcha(req.getParameter("g-recaptcha-response"));
