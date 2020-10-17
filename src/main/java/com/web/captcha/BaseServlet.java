@@ -14,8 +14,11 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.dbutils.BasicRowProcessor;
 import org.apache.commons.dbutils.handlers.MapListHandler;
 
@@ -30,6 +33,11 @@ public class BaseServlet extends HttpServlet {
             conn = DriverManager.getConnection(dburl, dbuser, dbpwd);
         } catch (Exception e) {
         }
+    }
+    
+    protected void forward(HttpServletRequest req, HttpServletResponse resp, String path) throws IOException, ServletException {
+        RequestDispatcher rd = req.getServletContext().getRequestDispatcher(path);
+        rd.forward(req, resp);
     }
     
     protected boolean newMember(String username, String password) {
@@ -63,7 +71,7 @@ public class BaseServlet extends HttpServlet {
     
     protected boolean checkLogin(String username, String password) {
         // 將 password 進行 base64 編碼
-        password = Base64.getEncoder().encodeToString(password.getBytes());
+        password = Base64.getEncoder().encodeToString(password.getBytes()); 
         String sql = "SELECT username, password FROM Member WHERE username='%s' and password='%s'";
         sql = String.format(sql, username, password);
         try(Statement stmt = conn.createStatement();
@@ -75,6 +83,7 @@ public class BaseServlet extends HttpServlet {
         }
         return false;
     }
+    
     
     protected boolean checkCaptcha(HttpServletRequest req) throws MalformedURLException, IOException {
         return checkCaptcha(req.getParameter("g-recaptcha-response"));

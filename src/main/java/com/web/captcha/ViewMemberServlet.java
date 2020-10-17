@@ -15,6 +15,13 @@ public class ViewMemberServlet extends BaseServlet {
 
     private void doHandler(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(false);
+        
+        if(session.getAttribute("username") == null) {
+            req.setAttribute("result", "無登入資料, 請重新登入!");
+            forward(req, resp, "/forms/captcha/sso_login_form.jsp");
+            return;
+        }
+        
         String username = session.getAttribute("username") + "";
         List<Map<String, Object>> members = getMember(username);
         req.setAttribute("members", members);

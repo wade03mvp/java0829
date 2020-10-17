@@ -24,5 +24,6 @@
                     data-action='submit'>建立</button>
             <button class="pure-button pure-button-primary" type="button" onclick="window.location.href='${pageContext.request.contextPath}/forms/captcha/sso_login_form.jsp'">回登入</button>
         </form>
+        <font color="red">${result}</font>
     </body>
 </html>
