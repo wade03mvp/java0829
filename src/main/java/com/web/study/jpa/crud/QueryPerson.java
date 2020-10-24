@@ -29,7 +29,7 @@ public class QueryPerson extends HttpServlet {
         // 查詢全部資料
         Query query = em.createQuery("SELECT p FROM Person p");
         out.print(query.getResultList());
-        out.print("<hr>");
+        out.print("<hr>"); // 秀出分隔線
         // 帶入條件查詢
         String sql = "SELECT p FROM Person p WHERE p.age >= :age";
         query = em.createQuery(sql);
