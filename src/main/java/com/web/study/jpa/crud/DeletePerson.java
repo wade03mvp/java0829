@@ -39,7 +39,7 @@ public class DeletePerson extends HttpServlet {
         // 建立交易模式
         EntityTransaction et = em.getTransaction();
         et.begin(); // 交易開始
-        em.remove(person); // 將 person 資料修改
+        em.remove(person); // 將 person 資料刪除
         et.commit(); // 交易提交
         em.close();
         out.print(person + " 刪除成功");
