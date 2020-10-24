@@ -21,5 +21,10 @@ public class MangoService {
         return em.createNamedQuery("Customer.findAll").getResultList();
     }
     
+    private EntityManager getEntityManager(HttpServletRequest req) {
+        EntityManagerFactory emf = (EntityManagerFactory)req.getServletContext().getAttribute("emf");
+        return emf.createEntityManager();
+    }
+    
 }
 
