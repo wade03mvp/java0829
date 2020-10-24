@@ -7,28 +7,32 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "customer")
+@NamedQueries({
+    @NamedQuery(name = "Customer.findAll", query = "SELECT c FROM Customer c"),})
 public class Customer implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @Column(name = "name", length = 50, nullable = false)
     private String name;
-    
+
     @Column(name = "sex", nullable = false)
     private Boolean sex;
-    
+
     @Column(name = "amount", nullable = false)
     private Integer amount;
-    
+
     @Column
     private Date ts = new Date();
-    
+
     public Long getId() {
         return id;
     }
@@ -73,5 +77,5 @@ public class Customer implements Serializable {
     public String toString() {
         return "Customer{" + "id=" + id + ", name=" + name + ", sex=" + sex + ", amount=" + amount + ", ts=" + ts + '}';
     }
-    
+
 }
