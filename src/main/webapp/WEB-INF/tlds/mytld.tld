@@ -52,4 +52,15 @@
       </attribute>
   </tag>
   
+  <tag>
+      <name>area</name>
+      <tag-class>com.web.tag.CircleAreaTag</tag-class>
+      <body-content>empty</body-content>
+      <attribute>
+          <name>r</name>
+          <required>true</required>
+          <rtexprvalue>true</rtexprvalue>
+      </attribute>
+  </tag>
+  
 </taglib>
