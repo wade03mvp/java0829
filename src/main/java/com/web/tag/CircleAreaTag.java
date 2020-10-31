@@ -22,7 +22,7 @@ public class CircleAreaTag extends SimpleTagSupport {
     public void doTag() throws JspException, IOException {
         JspWriter out = getJspContext().getOut();
         double area = Math.pow(r, 2) * Math.PI;
-        out.print(String.format("r: %.1f area: $.2f", r, area));
+        out.print(String.format("r: %.1f area: %.2f", r, area));
     }
     
 }
