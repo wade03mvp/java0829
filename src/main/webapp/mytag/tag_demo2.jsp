@@ -8,7 +8,8 @@
     </head>
     <body>
         <h1>
-            <t:hello />
+            <t:hello /><p />
+            <t:hello name="Wade" /><p />
         </h1>
     </body>
 </html>

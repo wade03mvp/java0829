@@ -11,6 +11,7 @@ public class HelloTag implements Tag {
 
     private PageContext pageContext;
     private Tag parentTag;
+    private String name;
 
     @Override
     public void setPageContext(PageContext pc) {
@@ -27,12 +28,31 @@ public class HelloTag implements Tag {
         return parentTag;
     }
 
+    public Tag getParentTag() {
+        return parentTag;
+    }
+
+    public void setParentTag(Tag parentTag) {
+        this.parentTag = parentTag;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     @Override
     public int doStartTag() throws JspException {
         // code
         JspWriter out = pageContext.getOut();
         try {
-            out.print("Hello");
+            out.print("Hello ");
+            if (name != null) {
+                out.print(name + " ");
+            }
             out.print(new Date());
         } catch (IOException ex) {
                 
@@ -44,7 +64,7 @@ public class HelloTag implements Tag {
     public int doEndTag() throws JspException {
         // code
         return Tag.EVAL_PAGE; // 正常結束,繼續執行 JSP 未完成的任務
-        // return Tag.SKIP_PAGE; // 此標籤後 JSP 程式不執行
+        // return Tag.SKIP_PAGE; // 此標籤後 JSP 程式不執行(用在登入失敗之情況)
     }
 
     @Override
