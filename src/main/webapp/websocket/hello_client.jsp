@@ -14,7 +14,7 @@
                     result.insertAdjacentHTML("beforeend", '連入到 server <br>');
                 };
                 ws.onmessage = function(evt) {
-                    result.insertAdjacentHTML("beofreend", evt.data() + "<br>");
+                    result.insertAdjacentHTML("beofreend", evt.data + "<br>");
                 }
                 ws.onclose = function(evt) {
                     result.insertAdjacentHTML("beforeend", '關閉連線 <br>');
